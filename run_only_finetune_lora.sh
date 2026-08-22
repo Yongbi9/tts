@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# This script demonstrates how to LoRA fine-tune OmniVoice from a JSONL manifest.
+# See ../docs/lora_finetuning.md for the full guide (why each step is required,
+# adapter inference, and adapter merging for deployment).
+
+set -euo pipefail
+
+stage=0
+stop_stage=1
+
+# ====== Modify as needed ======
+# GPUs to use
+GPU_IDS="0"
+NUM_GPUS=1
+
+# Path to your input JSONL file
+# (each line: {"id": ..., "audio_path": ..., "text": ..., "language_id": ...})
+TRAIN_JSONL="data/my_data_train.jsonl"
+
+# Path to your dev JSONL file. Set to empty string to skip dev set.
+DEV_JSONL=""
+
+# Directory to write tokenized WebDataset shards
+TOKEN_DIR="data/finetune/tokens"
+
+# Audio tokenizer model (HuggingFace repo or local path)
+TOKENIZER_PATH="eustlb/higgs-audio-v2-tokenizer"
+
+# LoRA training config file
+TRAIN_CONFIG="config/train_config_finetune_lora.json"
+
+# Data config file
+data_config="config/data_config_finetune.json"
+
+# Output directory for the LoRA adapter checkpoints
+OUTPUT_DIR="exp/omnivoice_finetune_lora"
+# =================================
+
+export PYTHONPATH="$(cd "$(dirname "$0")/.." && pwd):${PYTHONPATH:-}"
+
+
+# Stage 1: LoRA fine-tune
+if [ $stage -le 1 ] && [ $stop_stage -ge 1 ]; then
+    echo "Stage 1: LoRA fine-tuning"
+
+    accelerate launch \
+        --gpu_ids "${GPU_IDS}" \
+        --num_processes ${NUM_GPUS} \
+        -m omnivoice.cli.train \
+        --train_config ${TRAIN_CONFIG} \
+        --data_config ${data_config} \
+        --output_dir ${OUTPUT_DIR}
+fi

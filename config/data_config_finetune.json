@@ -1,0 +1,7 @@
+{
+    "train": [
+        {
+            "manifest_path": ["data/finetune/tokens/train/data.lst"]
+        }
+    ]
+}
