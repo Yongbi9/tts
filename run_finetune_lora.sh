@@ -73,14 +73,14 @@ fi
 
 
 # Stage 1: LoRA fine-tune
-if [ $stage -le 1 ] && [ $stop_stage -ge 1 ]; then
-    echo "Stage 1: LoRA fine-tuning"
-
-    accelerate launch \
-        --gpu_ids "${GPU_IDS}" \
-        --num_processes ${NUM_GPUS} \
-        -m omnivoice.cli.train \
-        --train_config ${TRAIN_CONFIG} \
-        --data_config ${data_config} \
-        --output_dir ${OUTPUT_DIR}
-fi
+#if [ $stage -le 1 ] && [ $stop_stage -ge 1 ]; then
+#    echo "Stage 1: LoRA fine-tuning"
+#
+#    accelerate launch \
+#        --gpu_ids "${GPU_IDS}" \
+#        --num_processes ${NUM_GPUS} \
+#        -m omnivoice.cli.train \
+#        --train_config ${TRAIN_CONFIG} \
+#        --data_config ${data_config} \
+#        --output_dir ${OUTPUT_DIR}
+#fi
