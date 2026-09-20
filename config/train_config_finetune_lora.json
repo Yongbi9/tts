@@ -34,12 +34,12 @@
     "warmup_steps": 0,
 
     "attn_implementation": "sdpa",
-    "max_sample_tokens": 1000,
+    "max_sample_tokens": 500,
     "min_sample_tokens": 50,
-    "max_batch_size": 32,
+    "max_batch_size": 8,
 
-    "batch_tokens": 512,
-    "gradient_accumulation_steps": 4,
+    "batch_tokens": 256,
+    "gradient_accumulation_steps": 16,
     "num_workers": 1,
 
     "mixed_precision": "bf16",
